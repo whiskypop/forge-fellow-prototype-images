@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>我的 Task · Fellow</title>
+    <link rel="stylesheet" href="./fellow.css" />
+    <script type="module" src="./fellow.mjs"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./fellow.html" aria-label="Copula fellow 首页"><span class="brand-mark">C</span><span>Copula fellow</span></a>
+        <span class="header-divider">/</span>
+        <a class="header-location" href="./fellow.html">我的 Task</a>
+        <span class="prototype-pill">公开原型</span>
+        <span class="header-spacer"></span>
+        <div class="account"><span class="account-avatar">专</span><span id="viewer-name">专家视角</span></div>
+      </div>
+    </header>
+
+    <main class="page">
+      <div id="loading" class="message-state" role="status">正在读取任务…</div>
+
+      <section id="list-view" class="list-view" hidden aria-labelledby="list-title">
+        <div class="list-heading">
+          <div><h1 id="list-title">我的 Task</h1><p>查看已分配题目，核对要求后进入交付流程。</p></div>
+          <label class="search-field"><span class="sr-only">搜索任务</span><input id="task-search" type="search" placeholder="搜索题号或任务名称" autocomplete="off" /></label>
+        </div>
+        <div class="list-toolbar">
+          <div class="filter-tabs" role="group" aria-label="任务筛选">
+            <button type="button" data-filter="all" class="is-active">全部 <span id="count-all">0</span></button>
+            <button type="button" data-filter="current">待交付 <span id="count-current">0</span></button>
+            <button type="button" data-filter="updated">题目有更新 <span id="count-updated">0</span></button>
+          </div>
+          <span class="source-label">来源 <strong>分配给我的</strong></span>
+        </div>
+        <div class="task-table" role="table" aria-label="我的任务">
+          <div class="table-heading" role="row"><span role="columnheader">TASK</span><span role="columnheader">分类与难度</span><span role="columnheader">当前状态</span><span role="columnheader">题目版本</span></div>
+          <div id="task-rows" role="rowgroup"></div>
+        </div>
+        <div id="list-empty" class="list-empty" hidden></div>
+      </section>
+
+      <div id="missing" class="message-state" hidden>
+        <h1>未找到任务说明</h1>
+        <p id="missing-detail">请联系任务分配方获取有效链接。</p>
+        <a href="./fellow.html">返回我的 Task</a>
+      </div>
+
+      <article id="detail-view" class="detail-view" hidden>
+        <a class="back-link" href="./fellow.html">← 我的 Task</a>
+        <div class="detail-heading">
+          <span id="task-id" class="task-code"></span>
+          <span id="task-status" class="status-badge"></span>
+          <h1 id="task-title"></h1>
+          <div class="detail-subline"><span>3D Blender</span><span class="dot">·</span><span id="category-inline"></span><span class="dot">·</span><span id="assignment-inline"></span></div>
+        </div>
+        <div id="status-notice" class="status-notice"></div>
+        <aside id="reference-requirement" class="reference-requirement" aria-labelledby="reference-requirement-heading" hidden>
+          <div class="reference-requirement-icon" aria-hidden="true">!</div>
+          <div>
+            <h2 id="reference-requirement-heading">首轮制作必须使用参考素材</h2>
+            <p>本题已提供<span id="reference-media-count"></span>。首轮制作时，请将下方参考图片或视频提供给 AI 作为输入，并按素材说明使用。仅在交付时附上素材不算完成此要求；未在首轮向 AI 提供，将判定验收不合格。</p>
+            <a href="#references-heading">查看参考素材 ↓</a>
+          </div>
+        </aside>
+
+        <section class="task-content-card" aria-labelledby="content-heading">
+          <div class="card-heading"><div><span class="card-eyebrow">任务说明</span><h2 id="content-heading">题目内容</h2></div><span id="task-version" class="version-tag"></span></div>
+          <div class="question-meta" aria-label="题目属性">
+            <div><span>二级分类</span><strong id="category2"></strong></div>
+            <div><span>三级分类</span><strong id="category3"></strong></div>
+            <div><span>难度</span><strong id="difficulty"></strong></div>
+          </div>
+          <section class="content-section" aria-labelledby="brief-heading"><h3 id="brief-heading">要做什么</h3><div id="brief" class="brief-text"></div></section>
+          <section class="content-section" aria-labelledby="acceptance-heading"><h3 id="acceptance-heading">验收清单</h3><ul id="acceptance" class="acceptance-list"></ul></section>
+          <section class="content-section" aria-labelledby="references-heading"><div class="section-line"><h3 id="references-heading">参考素材</h3><span id="reference-count"></span></div><p id="reference-instructions" class="reference-instructions" hidden>以下图片／视频是首轮制作的 AI 输入要求。请先提供给 AI，再开始生成。</p><div id="references" class="references"></div></section>
+        </section>
+
+        <section class="delivery-card" aria-labelledby="delivery-heading">
+          <span class="card-eyebrow">交付版本</span>
+          <h2 id="delivery-heading">尚未提交版本</h2>
+          <p>任务要求已在上方展示。正式 Fellow 中，此处可上传交付包并查看质检状态。</p>
+          <button type="button" disabled>上传交付包 ZIP / TAR.XZ</button>
+        </section>
+      </article>
+    </main>
+    <footer>Fellow · 公开交互原型</footer>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Forge 风格 · 数据单任务管理</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.mjs"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand"><span class="brand-mark">F</span><span>forge</span></div>
+        <div class="nav-group">生产</div>
+        <div class="nav-link">运行任务</div>
+        <div class="nav-link">Pipeline</div>
+        <div class="nav-link">数据集</div>
+        <div class="nav-link">资源</div>
+        <div class="nav-group">审核</div>
+        <div class="nav-link">人工审核</div>
+        <div class="nav-group">交付</div>
+        <div class="nav-link nav-link-active">交付数据单</div>
+        <div class="nav-link">交付看板</div>
+        <div class="nav-link">供应商与专家</div>
+        <div class="nav-group">工具</div>
+        <div class="nav-link">工具管理</div>
+        <div class="nav-link">下载管理</div>
+        <div class="nav-account">演示账号 · 公开原型</div>
+      </aside>
+
+      <main class="main" id="main-content">
+        <div class="topbar"><span>交付</span><span class="muted">/</span><strong>交付数据单</strong><span class="topbar-trailing">独立前端演示</span></div>
+
+        <section class="sheet-header">
+          <div class="sheet-eyebrow">数据单 / <span id="sheet-task-type">3D Blender</span></div>
+          <div class="sheet-title-row">
+            <div>
+              <div class="sheet-title"><h1 id="sheet-name">3D 场景任务演示</h1><span class="client-badge" id="sheet-customer">示例项目</span></div>
+              <p class="sheet-meta" id="sheet-description">题目、验收和参考素材集中管理；分配信息独立记录。</p>
+            </div>
+            <div class="head-actions">
+              <button class="btn btn-secondary" type="button" data-action="export">导出题目 CSV</button>
+              <button class="btn btn-secondary" type="button" data-action="import">批量导入</button>
+              <button class="btn btn-secondary" type="button" data-action="import-feishu">从飞书导入</button>
+              <button class="btn btn-primary" type="button" data-action="create">＋ 新建题目</button>
+            </div>
+          </div>
+          <div class="sheet-tools" aria-label="数据单管理">
+            <button class="btn btn-quiet" type="button" data-action="edit-sheet">编辑数据单</button>
+            <button class="btn btn-quiet" type="button" data-action="manage-tags">管理 Tag</button>
+            <button class="btn btn-quiet" type="button" data-action="tag-stats">Tag 统计</button>
+            <button class="btn btn-quiet" type="button" data-action="export-all">统一导出</button>
+          </div>
+        </section>
+
+        <div class="content" id="content">
+          <section class="list-section" aria-label="数据列表">
+            <div class="section-heading"><div><h2>数据列表</h2><span class="muted" id="task-count">0 个子项</span><button class="content-completeness" id="incomplete-toggle" data-action="toggle-incomplete" type="button" aria-pressed="false" style="display:none">待补全 0 项</button></div><span class="local-badge">虚构示例数据</span></div>
+            <div class="toolbar">
+              <label class="search-wrap"><span class="sr-only">搜索题号或标题</span><input id="search" class="search-input" type="search" placeholder="搜索题号、标题或分类…" /></label>
+              <select id="filter-assignment" class="select" aria-label="筛选分配状态"><option value="all">全部分配状态</option><option value="assigned">已分配</option><option value="unassigned">未分配</option><option value="outdated">待同步</option></select>
+              <select id="filter-difficulty" class="select" aria-label="筛选难度"><option value="all">全部难度</option><option value="D1">D1</option><option value="D2">D2</option><option value="D3">D3</option></select>
+              <select id="filter-tag" class="select" aria-label="筛选 Tag"><option value="all">全部 Tag</option></select>
+            </div>
+            <div class="table-wrap">
+              <table class="task-table">
+                <thead><tr><th scope="col"><input id="select-all" type="checkbox" aria-label="选择当前筛选结果中的全部子项" /></th><th scope="col">名字</th><th scope="col">题目分类</th><th scope="col">难度</th><th scope="col">生产负责人</th><th scope="col">审核负责人</th><th scope="col">Fellow 状态</th><th scope="col">Tag</th><th scope="col">操作</th></tr></thead>
+                <tbody id="task-rows"></tbody>
+              </table>
+              <div id="empty-state" class="empty-state" hidden><strong>还没有题目</strong><p>新建单条题目，或导入包含 8 个字段的 CSV。</p><button class="btn btn-primary" type="button" data-action="import">批量导入题目</button></div>
+            </div>
+            <div id="bulk-actions" class="bulk-actions" hidden><span id="selection-count">已选 0 项</span><button class="btn btn-secondary" type="button" data-action="bulk-owners">批量指派负责人</button><button class="btn btn-secondary" type="button" data-action="bulk-assign">批量指派供应商</button><button class="btn btn-quiet" type="button" data-action="clear-selection">取消选择</button></div>
+            <p class="table-note">供应商分配显示在生产负责人列；“要做什么”和验收清单在“编辑”中查看。</p>
+          </section>
+
+          <aside class="drawer" id="drawer" aria-label="题目详情" hidden>
+            <div class="drawer-header"><strong>题目详情</strong><button type="button" class="icon-button" data-action="close-drawer" aria-label="关闭题目详情">×</button></div>
+            <div class="drawer-body" id="drawer-body"></div>
+            <div class="drawer-footer" id="drawer-footer"></div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <div class="overlay" id="overlay" hidden>
+      <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+        <div class="dialog-header"><div><span id="dialog-eyebrow" class="muted"></span><h2 id="dialog-title"></h2></div><button type="button" class="icon-button" data-action="close-dialog" aria-label="关闭弹窗">×</button></div>
+        <div class="dialog-body" id="dialog-body"></div>
+        <div class="dialog-footer" id="dialog-footer"></div>
+      </section>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>
